@@ -46,7 +46,9 @@ const currencyRate = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         result
     };
     const oneDayAgo = new Date().getTime() - 24 * 60 * 60 * 1000;
-    const updatedAt = currency.rateUpdatedAt ? new Date(currency.rateUpdatedAt).getTime() : null;
+    const updatedAt = currency.rateUpdatedAt
+        ? new Date(currency.rateUpdatedAt).getTime()
+        : null;
     if (updatedAt && updatedAt >= oneDayAgo) {
         (0, helpers_1.sendResponse)(res, 200, payload);
         return;

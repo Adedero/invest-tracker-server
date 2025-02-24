@@ -97,9 +97,9 @@ function register(req, res) {
                         name: newUser.name,
                         intro: 'Thanks for signing up on Invest Tracker! We applaud you on taking this important step to making well-informed investments in the digital market.\n\nBelow are your account details: ',
                         details: {
-                            'Name': newUser.name,
-                            'Email': newUser.email,
-                            'Password': password1
+                            Name: newUser.name,
+                            Email: newUser.email,
+                            Password: password1
                         },
                         info: 'Please, keep this information safe, especially your password.',
                         cta: {
@@ -120,9 +120,9 @@ function register(req, res) {
                     name: 'Invest Tracker Admin',
                     intro: 'A new user has registered on Invest Tracker.',
                     details: {
-                        'Name': newUser.name,
-                        'Email': newUser.email,
-                        'Date': newUser.createdAt.toLocaleString()
+                        Name: newUser.name,
+                        Email: newUser.email,
+                        Date: newUser.createdAt.toLocaleString()
                     }
                 })
             });

@@ -6,7 +6,7 @@ import {
   BeforeUpdate,
   OneToOne,
   JoinColumn,
-  type Relation,
+  type Relation
 } from 'typeorm'
 import { v4 as uuidv4 } from 'uuid'
 import { User } from './user.model'
@@ -45,7 +45,6 @@ export class Token {
     this.updatedAt = new Date()
   }
 }
-
 
 /* import {
   Entity,

@@ -121,4 +121,4 @@ export class Notification {
   @ManyToOne(() => User, (user) => user.notifications)
   user!: User
 }
- */ 
+ */

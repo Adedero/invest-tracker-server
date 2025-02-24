@@ -1,22 +1,28 @@
 import env from './env'
 
-export const emailTemplate = (
-  { subject, name, intro, details, info, cta = {}, outro, footer }:
-  {
-    subject: string
-    name: string
-    intro: string
-    details?: Record<string, unknown>
-    info?: string
-    cta?: {
-      intro?: string
-      buttonLabel?: string
-      href?: string
-    }
-    outro?: string
-    footer?: string
+export const emailTemplate = ({
+  subject,
+  name,
+  intro,
+  details,
+  info,
+  cta = {},
+  outro,
+  footer
+}: {
+  subject: string
+  name: string
+  intro: string
+  details?: Record<string, unknown>
+  info?: string
+  cta?: {
+    intro?: string
+    buttonLabel?: string
+    href?: string
   }
-) => {
+  outro?: string
+  footer?: string
+}) => {
   return `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -51,17 +57,25 @@ export const emailTemplate = (
           <p style="white-space: pre-wrap; margin-top: 1rem;">${intro}</p>
         </div>
 
-        ${details ? `
+        ${
+          details
+            ? `
           <div style="margin-left: 1rem; margin-top: 1rem;">
-          ${Object.entries(details).map(([key, value]) => 
-            `<p><span>${key}:</span> <span style="font-weight: bold;">${value}</span></p>`
-            ).join('')}
-          </div>` : ''
+          ${Object.entries(details)
+            .map(
+              ([key, value]) =>
+                `<p><span>${key}:</span> <span style="font-weight: bold;">${value}</span></p>`
+            )
+            .join('')}
+          </div>`
+            : ''
         }
 
         ${info ? `<div style="margin-top: 1rem;"><p style="white-space: pre-wrap;">${info}</p></div>` : ''}
     
-        ${Object.keys(cta).length ? `
+        ${
+          Object.keys(cta).length
+            ? `
           <div style="text-align: center; margin-top: 1.5rem;">
             <p style="text-align: left; white-space: pre-wrap;">${cta.intro}</p>
             <a href="${cta.href}" style="display: inline-block; margin-top: 1rem; text-decoration: none;">
@@ -69,7 +83,8 @@ export const emailTemplate = (
                 ${cta.buttonLabel}
               </button>
             </a>
-          </div>` : ''
+          </div>`
+            : ''
         }
 
         ${outro ? `<div><p style="margin-top: 1rem; white-space: pre-wrap;">${outro}</p></div>` : ''}
@@ -82,7 +97,7 @@ export const emailTemplate = (
 
       <!-- Footer -->
       <div style="margin-top: 20px; text-align: center; font-size: 12px; color: #fff; background-color: #6f9add; padding: 0.5rem; border-radius: 5px;">
-        ${footer ? `<p style="white-space: pre-wrap;">${footer}</p>` : '' }
+        ${footer ? `<p style="white-space: pre-wrap;">${footer}</p>` : ''}
         <p>&copy; Invest Tracker. All rights reserved.</p>
       </div>
     </div>

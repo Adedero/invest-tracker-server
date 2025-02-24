@@ -429,8 +429,8 @@ const emailHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 .string({ message: 'Email is required' })
                 .email({ message: 'Invalid email provided' }),
             subject: zod_1.z.string({ message: 'Email Subject is required' }),
-            name: zod_1.z.string({ message: 'User\'s name is required' }),
-            intro: zod_1.z.string({ message: 'Email content is required' }),
+            name: zod_1.z.string({ message: "User's name is required" }),
+            intro: zod_1.z.string({ message: 'Email content is required' })
         });
         const result = Schema.safeParse({ email, subject, name, intro, outro });
         if (!result.success) {

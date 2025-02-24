@@ -4,7 +4,7 @@ import {
   PrimaryColumn,
   Index,
   BeforeInsert,
-  BeforeUpdate,
+  BeforeUpdate
 } from 'typeorm'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -41,7 +41,6 @@ export class Faq {
     this.updatedAt = new Date()
   }
 }
-
 
 /* // notification.model.ts
 import {

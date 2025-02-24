@@ -83,7 +83,10 @@ export const updateTransaction = async (req: Request, res: Response) => {
       await txnRepo.save(txn)
       await userRepo.save(user)
 
-      alertEmitter.emit('update-transaction-status', { ...txn, user: { ...user } })
+      alertEmitter.emit('update-transaction-status', {
+        ...txn,
+        user: { ...user }
+      })
 
       sendResponse(res, 200, { data: txn })
     })

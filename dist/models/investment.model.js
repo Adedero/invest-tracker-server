@@ -276,4 +276,4 @@ export class Investment {
   @OneToMany(() => Profit, (profit) => profit.investment)
   profits!: Profit[]
 }
- */ 
+ */

@@ -100,7 +100,8 @@ const terminateInvestment = (req, res) => __awaiter(void 0, void 0, void 0, func
             if (!investment) {
                 throw new Error('Investment not found');
             }
-            if (investment.status === 'terminated' || investment.status === 'closed') {
+            if (investment.status === 'terminated' ||
+                investment.status === 'closed') {
                 throw new Error('Investment is already resolved and cannot be terminated');
             }
             if (!account) {

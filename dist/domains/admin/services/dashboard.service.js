@@ -26,8 +26,17 @@ function getDashboardData(req, res) {
             ivnRepo.count({ where: { status: 'open' } }),
             curRepo.count(),
             ivnPlanRepo.count(),
-            txnRepo.find({ relations: { user: true }, take: 3, order: { createdAt: 'DESC' } }),
-            ivnRepo.find({ relations: { user: true }, where: { status: 'open' }, take: 3, order: { createdAt: 'DESC' } })
+            txnRepo.find({
+                relations: { user: true },
+                take: 3,
+                order: { createdAt: 'DESC' }
+            }),
+            ivnRepo.find({
+                relations: { user: true },
+                where: { status: 'open' },
+                take: 3,
+                order: { createdAt: 'DESC' }
+            })
         ]);
         const data = {
             usersCount,

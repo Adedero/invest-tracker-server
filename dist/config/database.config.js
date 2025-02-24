@@ -29,7 +29,7 @@ const currency_model_1 = require("../models/currency.model");
 const faq_model_1 = require("../models/faq.model");
 exports.AppDataSource = new typeorm_1.DataSource({
     type: env_1.default.get('DB_TYPE', 'postgres'),
-    host: env_1.default.get('DB_HOST', 'localhost'),
+    host: env_1.default.get('DB_HOST', '127.0.0.1'),
     port: parseInt(env_1.default.get('DB_PORT', '5432')),
     username: env_1.default.get('DB_USER', 'test'),
     password: env_1.default.get('DB_PASSWORD', 'test'),

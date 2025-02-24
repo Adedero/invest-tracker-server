@@ -144,4 +144,4 @@ export class Profit {
   })
   investment!: Investment
 }
- */ 
+ */

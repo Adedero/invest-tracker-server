@@ -5,7 +5,7 @@ import {
   ManyToOne,
   Index,
   BeforeInsert,
-  BeforeUpdate,
+  BeforeUpdate
 } from 'typeorm'
 import { Investment } from './investment.model'
 import { v4 as uuidv4 } from 'uuid'
@@ -63,7 +63,6 @@ export class Profit {
     this.updatedAt = new Date()
   }
 }
-
 
 /* // profit.model.ts
 import {

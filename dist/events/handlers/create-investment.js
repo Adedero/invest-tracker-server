@@ -29,20 +29,29 @@ function onCreateInvestment(investment) {
                 intro: message(name),
                 details: {
                     'Investment Name': investment.investmentName,
-                    'Tier': investment.investmentTier,
-                    'Deposit': `$${investment.initialDeposit.toLocaleString()}`,
-                    'Duration': `${investment.duration} days`
+                    Tier: investment.investmentTier,
+                    Deposit: `$${investment.initialDeposit.toLocaleString()}`,
+                    Duration: `${investment.duration} days`
                 },
                 info: investment.autocompounded
-                    ? `This investment is autocompounded. The returns from this investment will only be added to ${name ? 'your' : 'the client\'s'} account balance upon completion or termination of the investment`
-                    : `This investment is not autocompounded. The daily returns from this investment will be added to ${name ? 'your' : 'the client\'s'} account balance daily.`,
+                    ? `This investment is autocompounded. The returns from this investment will only be added to ${name ? 'your' : "the client's"} account balance upon completion or termination of the investment`
+                    : `This investment is not autocompounded. The daily returns from this investment will be added to ${name ? 'your' : "the client's"} account balance daily.`,
                 footer: 'This message was sent from Invest Tracker because a new investment was started.'
             });
         };
         try {
             yield Promise.all([
-                (0, handlers_1.createNotification)({ userId: investment.user.id, title: subject, description: message(investment.user.name), user: investment.user }),
-                (0, mail_1.sendEmail)({ toEmail: investment.user.email, subject, html: html(investment.user.name) }),
+                (0, handlers_1.createNotification)({
+                    userId: investment.user.id,
+                    title: subject,
+                    description: message(investment.user.name),
+                    user: investment.user
+                }),
+                (0, mail_1.sendEmail)({
+                    toEmail: investment.user.email,
+                    subject,
+                    html: html(investment.user.name)
+                }),
                 (0, mail_1.sendEmail)({ toEmail: env_1.default.get('EMAIL_USER'), subject, html: html() })
             ]);
         }

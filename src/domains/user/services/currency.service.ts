@@ -42,7 +42,9 @@ export const currencyRate = async (req: Request, res: Response) => {
   }
 
   const oneDayAgo = new Date().getTime() - 24 * 60 * 60 * 1000
-  const updatedAt = currency.rateUpdatedAt ? new Date(currency.rateUpdatedAt).getTime() : null
+  const updatedAt = currency.rateUpdatedAt
+    ? new Date(currency.rateUpdatedAt).getTime()
+    : null
 
   if (updatedAt && updatedAt >= oneDayAgo) {
     sendResponse(res, 200, payload)
@@ -75,7 +77,7 @@ export const currencyRate = async (req: Request, res: Response) => {
       payload.currency.rate = rate
       payload.result = parsedAmount / rate
     }
-    
+
     sendResponse(res, 200, payload)
   } catch (error) {
     sendResponse(res, 500, (error as Error).message)

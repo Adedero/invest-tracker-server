@@ -41,7 +41,8 @@ function terminateInvestment(req, res) {
                 if (!investment) {
                     throw new Error('Investment not found');
                 }
-                if (investment.status === 'terminated' || investment.status === 'closed') {
+                if (investment.status === 'terminated' ||
+                    investment.status === 'closed') {
                     throw new Error('Investment is already resolved and cannot be terminated');
                 }
                 const account = yield accountRepo.findOne({
@@ -50,7 +51,9 @@ function terminateInvestment(req, res) {
                 if (!account) {
                     throw new Error('User account not found');
                 }
-                const terminationFee = terminationFeeApplied ? ((_a = investment.terminationFee) !== null && _a !== void 0 ? _a : 0) : 0;
+                const terminationFee = terminationFeeApplied
+                    ? ((_a = investment.terminationFee) !== null && _a !== void 0 ? _a : 0)
+                    : 0;
                 if (investment.autocompounded) {
                     if (investment.currentTotalReturns >= investment.initialDeposit) {
                         account.walletBalance +=

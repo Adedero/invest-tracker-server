@@ -51,7 +51,11 @@ export const createWithdrawal = async (
     })
 
     if (lastWithdrawalRequest) {
-      sendResponse(res, 400, 'Possible duplicate withdrawal request detected. Please, wait a little before proceeding.')
+      sendResponse(
+        res,
+        400,
+        'Possible duplicate withdrawal request detected. Please, wait a little before proceeding.'
+      )
       return
     }
 
@@ -132,7 +136,11 @@ export const createDeposit = async (
     })
 
     if (lastDepositRequest) {
-      sendResponse(res, 400, 'Possible duplicate deposit request detected. Please, wait a little before proceeding.')
+      sendResponse(
+        res,
+        400,
+        'Possible duplicate deposit request detected. Please, wait a little before proceeding.'
+      )
       return
     }
 

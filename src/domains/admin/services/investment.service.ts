@@ -1,8 +1,8 @@
-import { Request, Response } from "express";
-import { sendResponse } from "../../../utils/helpers";
-import logger from "../../../utils/logger";
-import { initDataSource } from "../../../config/database.config";
-import { alertEmitter } from "../../../events/alert.event";
+import { Request, Response } from 'express'
+import { sendResponse } from '../../../utils/helpers'
+import logger from '../../../utils/logger'
+import { initDataSource } from '../../../config/database.config'
+import { alertEmitter } from '../../../events/alert.event'
 
 export async function terminateInvestment(req: Request, res: Response) {
   const { id } = req.params
@@ -10,11 +10,11 @@ export async function terminateInvestment(req: Request, res: Response) {
     sendResponse(res, 400, 'No investment ID provided')
     return
   }
-  
-  const {
-    terminationReason,
-    terminationFeeApplied
-  } = req.body as { terminationReason: string; terminationFeeApplied: boolean }
+
+  const { terminationReason, terminationFeeApplied } = req.body as {
+    terminationReason: string
+    terminationFeeApplied: boolean
+  }
 
   if (!terminationReason) {
     sendResponse(res, 400, 'No termination reason provided')
@@ -22,7 +22,7 @@ export async function terminateInvestment(req: Request, res: Response) {
 
   try {
     const { dataSource } = await initDataSource()
-    await dataSource.transaction(async(manager) => {
+    await dataSource.transaction(async (manager) => {
       const investmentRepo = manager.getRepository('Investment')
       const accountRepo = manager.getRepository('Account')
 
@@ -35,8 +35,13 @@ export async function terminateInvestment(req: Request, res: Response) {
         throw new Error('Investment not found')
       }
 
-      if (investment.status === 'terminated' || investment.status === 'closed') {
-        throw new Error('Investment is already resolved and cannot be terminated')
+      if (
+        investment.status === 'terminated' ||
+        investment.status === 'closed'
+      ) {
+        throw new Error(
+          'Investment is already resolved and cannot be terminated'
+        )
       }
 
       const account = await accountRepo.findOne({
@@ -47,7 +52,9 @@ export async function terminateInvestment(req: Request, res: Response) {
         throw new Error('User account not found')
       }
 
-      const terminationFee: number = terminationFeeApplied ?  (investment.terminationFee ?? 0) : 0
+      const terminationFee: number = terminationFeeApplied
+        ? (investment.terminationFee ?? 0)
+        : 0
 
       if (investment.autocompounded) {
         if (investment.currentTotalReturns >= investment.initialDeposit) {

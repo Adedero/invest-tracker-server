@@ -5,7 +5,7 @@ import {
   ManyToOne,
   Index,
   BeforeInsert,
-  BeforeUpdate,
+  BeforeUpdate
 } from 'typeorm'
 import { User } from './user.model'
 import { v4 as uuidv4 } from 'uuid'
@@ -109,7 +109,6 @@ export class Transaction {
     this.updatedAt = new Date()
   }
 }
-
 
 /* // transaction.model.ts
 import {

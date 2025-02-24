@@ -13,7 +13,7 @@ import { sendEmail } from '../../../utils/mail'
 import { createNotification } from '../../../utils/handlers'
 import { User } from '../../../models/user.model'
 import { Not } from 'typeorm'
-import { emailTemplate } from './../../../utils/emails';
+import { emailTemplate } from './../../../utils/emails'
 
 export const sendEmailVerificationToken = async (
   req: Request,
@@ -94,7 +94,8 @@ export const sendEmailVerificationToken = async (
         buttonLabel: 'Verify'
       },
       outro: 'The link and OTP expires in 1 hour.',
-      footer: 'If you did not recently open an account with us or request for an email change or request a password reset, please ignore this email. Your account is safe and secure.'
+      footer:
+        'If you did not recently open an account with us or request for an email change or request a password reset, please ignore this email. Your account is safe and secure.'
     })
   })
 
@@ -112,7 +113,6 @@ export const sendEmailVerificationToken = async (
   sendResponse(res, 200, data)
   return
 }
-
 
 export const verifyEmail = async (req: Request, res: Response) => {
   const { userId, otp, token } = req.query
@@ -222,7 +222,8 @@ export const verifyEmail = async (req: Request, res: Response) => {
           buttonLabel: 'Log in',
           href: `${env.get('CLIENT_URL')}/auth/login`
         },
-        footer: 'You received this email because you completed an email verification process.'
+        footer:
+          'You received this email because you completed an email verification process.'
       })
     })
   ])

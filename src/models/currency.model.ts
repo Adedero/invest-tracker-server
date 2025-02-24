@@ -3,7 +3,7 @@ import {
   Column,
   PrimaryColumn,
   BeforeInsert,
-  BeforeUpdate,
+  BeforeUpdate
 } from 'typeorm'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -60,7 +60,6 @@ export class Currency {
     this.updatedAt = new Date()
   }
 }
-
 
 /* // currency.model.ts
 import {

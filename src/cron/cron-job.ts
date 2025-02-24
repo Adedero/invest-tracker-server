@@ -3,12 +3,12 @@ import { distributeProfit } from '../domains/user/services/profit.service'
 import logger from '../utils/logger'
 
 export const job = new CronJob(
-  '* * * * * ', // cronTime
+  '0 0 * * *', // Runs at 12:00 AM (midnight) every day
   async function () {
-    await distributeProfit()
-    logger.info('Profit Distrubuted')
-  }, // onTick
+    await distributeProfit();
+    logger.info('Profit Distributed');
+  },
   null, // onComplete
-  true, // start
-  'America/Los_Angeles'
-)
+  true, // start automatically
+  'America/Los_Angeles' // Timezone
+);

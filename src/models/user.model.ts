@@ -5,7 +5,7 @@ import {
   OneToOne,
   OneToMany,
   BeforeInsert,
-  BeforeUpdate,
+  BeforeUpdate
 } from 'typeorm'
 import { v4 as uuidv4 } from 'uuid'
 import { Token } from './token.model'
@@ -103,7 +103,6 @@ export class User {
     this.updatedAt = new Date()
   }
 }
-
 
 /* import {
   Entity,

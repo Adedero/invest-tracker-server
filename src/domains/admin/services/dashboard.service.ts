@@ -1,9 +1,8 @@
-import { Request, Response } from "express";
-import { initDataSource } from "../../../config/database.config";
-import { sendResponse } from "../../../utils/helpers";
+import { Request, Response } from 'express'
+import { initDataSource } from '../../../config/database.config'
+import { sendResponse } from '../../../utils/helpers'
 
 export async function getDashboardData(req: Request, res: Response) {
-
   const { dataSource } = await initDataSource()
 
   const userRepo = dataSource.getRepository('User')
@@ -26,11 +25,20 @@ export async function getDashboardData(req: Request, res: Response) {
     ivnRepo.count({ where: { status: 'open' } }),
     curRepo.count(),
     ivnPlanRepo.count(),
-    txnRepo.find({ relations: { user: true }, take: 3, order: { createdAt: 'DESC' } }),
-    ivnRepo.find({ relations: { user: true }, where: { status: 'open' }, take: 3, order: { createdAt: 'DESC' } })
+    txnRepo.find({
+      relations: { user: true },
+      take: 3,
+      order: { createdAt: 'DESC' }
+    }),
+    ivnRepo.find({
+      relations: { user: true },
+      where: { status: 'open' },
+      take: 3,
+      order: { createdAt: 'DESC' }
+    })
   ])
 
-  const  data = {
+  const data = {
     usersCount,
     adminsCount,
     openInvestmentsCount,

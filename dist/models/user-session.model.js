@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 /* import {
   Entity,
   Column,
@@ -38,4 +38,4 @@ export class UserSession {
   })
   user!: Relation<User>
 }
- */ 
+ */

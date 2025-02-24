@@ -5,7 +5,7 @@ import {
   BeforeInsert,
   BeforeUpdate,
   OneToOne,
-  JoinColumn,
+  JoinColumn
 } from 'typeorm'
 import { v4 as uuidv4 } from 'uuid'
 import { User } from './user.model'
@@ -67,7 +67,6 @@ export class Account {
     this.updatedAt = new Date()
   }
 }
-
 
 /* // account.model.ts
 import {

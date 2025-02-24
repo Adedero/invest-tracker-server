@@ -112,4 +112,4 @@ export class InvestmentPlan {
   @UpdateDateColumn()
   updatedAt!: Date
 }
- */ 
+ */

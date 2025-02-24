@@ -20,7 +20,7 @@ declare global {
 
 export const AppDataSource = new DataSource({
   type: env.get('DB_TYPE', 'postgres') as 'postgres',
-  host: env.get('DB_HOST', 'localhost'),
+  host: env.get('DB_HOST', '127.0.0.1'),
   port: parseInt(env.get('DB_PORT', '5432')),
   username: env.get('DB_USER', 'test'),
   password: env.get('DB_PASSWORD', 'test'),

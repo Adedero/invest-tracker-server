@@ -19,10 +19,10 @@ export const contact = async (req: Request, res: Response) => {
       name: 'Invest Tracker Admin',
       intro: 'You have received a support request',
       details: {
-        'Name': name,
-        'Email': email,
-        'Subject': subject,
-        'Message': message
+        Name: name,
+        Email: email,
+        Subject: subject,
+        Message: message
       }
     })
   })

@@ -20,7 +20,7 @@ const logger_1 = __importDefault(require("../../utils/logger"));
 const mail_1 = require("../../utils/mail");
 function onTerminateInvestment(investment) {
     return __awaiter(this, void 0, void 0, function* () {
-        const message = (name) => `The investment ${investment.investmentName} (${investment.investmentTier} Tier) was terminated by ${(investment.terminator === 'user' && name) ? 'you' : (investment.terminator === 'user' && !name) ? investment.user.name : 'the Invest Tracker admin'} ${!investment.terminationReason ? 'without reason.' : 'with reason: ' + investment.terminationReason}.`;
+        const message = (name) => `The investment ${investment.investmentName} (${investment.investmentTier} Tier) was terminated by ${investment.terminator === 'user' && name ? 'you' : investment.terminator === 'user' && !name ? investment.user.name : 'the Invest Tracker admin'} ${!investment.terminationReason ? 'without reason.' : 'with reason: ' + investment.terminationReason}.`;
         const subject = 'Termination of Investment';
         const html = (name) => {
             return (0, emails_1.emailTemplate)({
@@ -29,7 +29,7 @@ function onTerminateInvestment(investment) {
                 intro: message(name),
                 details: {
                     'Investment Name': investment.investmentName,
-                    'Tier': investment.investmentTier,
+                    Tier: investment.investmentTier,
                     'Termination Fee': `$${investment.terminationFee.toLocaleString()}`,
                     'Reason for Termination': investment.terminationReason,
                     'Total Returns': `$${investment.currentTotalReturns.toLocaleString()}`
@@ -38,11 +38,24 @@ function onTerminateInvestment(investment) {
             });
         };
         try {
-            yield (0, handlers_1.createNotification)({ userId: investment.user.id, title: subject, description: message(investment.user.name), user: investment.user });
+            yield (0, handlers_1.createNotification)({
+                userId: investment.user.id,
+                title: subject,
+                description: message(investment.user.name),
+                user: investment.user
+            });
             //Email to be sent to admin and user
             yield Promise.all([
-                (0, mail_1.sendEmail)({ subject, toEmail: env_1.default.get('EMAIL_USER'), html: html('Invest Tracker Admin') }),
-                (0, mail_1.sendEmail)({ subject, toEmail: investment.user.email, html: html(investment.user.name) })
+                (0, mail_1.sendEmail)({
+                    subject,
+                    toEmail: env_1.default.get('EMAIL_USER'),
+                    html: html('Invest Tracker Admin')
+                }),
+                (0, mail_1.sendEmail)({
+                    subject,
+                    toEmail: investment.user.email,
+                    html: html(investment.user.name)
+                })
             ]);
         }
         catch (error) {

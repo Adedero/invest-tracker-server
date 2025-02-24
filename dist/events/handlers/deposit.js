@@ -33,11 +33,11 @@ function onDeposit(txn) {
                 subject,
                 name: name || 'Invest Tracker Admin',
                 intro: message(name),
-                details: Object.assign(Object.assign({ 'Amount': `$${txn.amountInUSD.toLocaleString()}`, 'Medium': txn.isWireTransfer ? 'Wire Transfer' : txn.currency }, (!txn.isWireTransfer && {
-                    'Rate': `$${txn.rate}`,
+                details: Object.assign(Object.assign({ Amount: `$${txn.amountInUSD.toLocaleString()}`, Medium: txn.isWireTransfer ? 'Wire Transfer' : txn.currency }, (!txn.isWireTransfer && {
+                    Rate: `$${txn.rate}`,
                     'Amount In Selected Currency': `${txn.amountInCurrency} ${txn.currency}`,
                     'Deposited To Wallet Address': txn.depositWalletAddress
-                })), { 'Status': txn.status }),
+                })), { Status: txn.status }),
                 info: txn.isWireTransfer
                     ? 'The deposit request has been submitted and the details of the wire transfer will emailed shortly.'
                     : 'The deposit request will be processed within 24 hours.',
@@ -45,7 +45,12 @@ function onDeposit(txn) {
             });
         };
         yield Promise.all([
-            (0, handlers_1.createNotification)({ userId: txn.userId, title: subject, description: message(txn.user.name), user: txn.user }),
+            (0, handlers_1.createNotification)({
+                userId: txn.userId,
+                title: subject,
+                description: message(txn.user.name),
+                user: txn.user
+            }),
             (0, mail_1.sendEmail)({ toEmail: txn.user.email, subject, html: html(txn.user.name) }),
             (0, mail_1.sendEmail)({ toEmail: env_1.default.get('EMAIL_USER'), subject, html: html() })
         ]);

@@ -3,7 +3,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt'
 import env from '../utils/env'
 import getRepository from '../utils/repository'
 
-const JWT_SECRET = env.get('JWT_SECRET', 'jwt-secret')
+const JWT_SECRET = env.get('JWT_SECRET')
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

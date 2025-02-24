@@ -27,10 +27,10 @@ const contact = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             name: 'Invest Tracker Admin',
             intro: 'You have received a support request',
             details: {
-                'Name': name,
-                'Email': email,
-                'Subject': subject,
-                'Message': message
+                Name: name,
+                Email: email,
+                Subject: subject,
+                Message: message
             }
         })
     });

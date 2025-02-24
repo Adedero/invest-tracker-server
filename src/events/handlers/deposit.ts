@@ -1,9 +1,9 @@
-import { Transaction } from "../../models/transaction.model"
-import { User } from "../../models/user.model"
-import { emailTemplate } from "../../utils/emails"
-import env from "../../utils/env"
-import { createNotification } from "../../utils/handlers"
-import { sendEmail } from "../../utils/mail"
+import { Transaction } from '../../models/transaction.model'
+import { User } from '../../models/user.model'
+import { emailTemplate } from '../../utils/emails'
+import env from '../../utils/env'
+import { createNotification } from '../../utils/handlers'
+import { sendEmail } from '../../utils/mail'
 
 interface OnDepositData extends Transaction {
   user: User
@@ -25,14 +25,14 @@ export default async function onDeposit(txn: OnDepositData) {
       name: name || 'Invest Tracker Admin',
       intro: message(name),
       details: {
-        'Amount': `$${txn.amountInUSD.toLocaleString()}`,
-        'Medium': txn.isWireTransfer ? 'Wire Transfer' : txn.currency,
+        Amount: `$${txn.amountInUSD.toLocaleString()}`,
+        Medium: txn.isWireTransfer ? 'Wire Transfer' : txn.currency,
         ...(!txn.isWireTransfer && {
-          'Rate': `$${txn.rate}`,
+          Rate: `$${txn.rate}`,
           'Amount In Selected Currency': `${txn.amountInCurrency} ${txn.currency}`,
           'Deposited To Wallet Address': txn.depositWalletAddress
         }),
-        'Status': txn.status
+        Status: txn.status
       },
       info: txn.isWireTransfer
         ? 'The deposit request has been submitted and the details of the wire transfer will emailed shortly.'
@@ -42,7 +42,12 @@ export default async function onDeposit(txn: OnDepositData) {
   }
 
   await Promise.all([
-    createNotification({ userId: txn.userId, title: subject, description: message(txn.user.name), user: txn.user as User }),
+    createNotification({
+      userId: txn.userId,
+      title: subject,
+      description: message(txn.user.name),
+      user: txn.user as User
+    }),
     sendEmail({ toEmail: txn.user.email, subject, html: html(txn.user.name) }),
     sendEmail({ toEmail: env.get('EMAIL_USER'), subject, html: html() })
   ])

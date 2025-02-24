@@ -500,12 +500,12 @@ export const emailHandler = async (req: Request, res: Response) => {
         .string({ message: 'Email is required' })
         .email({ message: 'Invalid email provided' }),
       subject: z.string({ message: 'Email Subject is required' }),
-      name: z.string({ message: 'User\'s name is required' }),
-      intro: z.string({ message: 'Email content is required' }),
+      name: z.string({ message: "User's name is required" }),
+      intro: z.string({ message: 'Email content is required' })
     })
-  
+
     const result = Schema.safeParse({ email, subject, name, intro, outro })
-  
+
     if (!result.success) {
       sendResponse(res, 400, result.error.errors[0].message)
       return

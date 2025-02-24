@@ -249,4 +249,4 @@ export class Transaction {
   @ManyToOne(() => User, (user) => user.transactions)
   user!: User
 }
- */ 
+ */

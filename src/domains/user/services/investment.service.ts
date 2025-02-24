@@ -122,8 +122,13 @@ export const terminateInvestment = async (req: Request, res: Response) => {
         throw new Error('Investment not found')
       }
 
-      if (investment.status === 'terminated' || investment.status === 'closed') {
-        throw new Error('Investment is already resolved and cannot be terminated')
+      if (
+        investment.status === 'terminated' ||
+        investment.status === 'closed'
+      ) {
+        throw new Error(
+          'Investment is already resolved and cannot be terminated'
+        )
       }
 
       if (!account) {

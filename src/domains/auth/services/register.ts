@@ -52,9 +52,7 @@ export default async function register(req: Request, res: Response) {
   newUser.account = account
   await users.save(newUser)
 
-  await Promise.all([
-
-  ])
+  await Promise.all([])
 
   try {
     await Promise.all([
@@ -65,19 +63,22 @@ export default async function register(req: Request, res: Response) {
         html: emailTemplate({
           subject: 'Welcome to Invest Tracker',
           name: newUser.name,
-          intro: 'Thanks for signing up on Invest Tracker! We applaud you on taking this important step to making well-informed investments in the digital market.\n\nBelow are your account details: ',
+          intro:
+            'Thanks for signing up on Invest Tracker! We applaud you on taking this important step to making well-informed investments in the digital market.\n\nBelow are your account details: ',
           details: {
-            'Name': newUser.name,
-            'Email': newUser.email,
-            'Password': password1
+            Name: newUser.name,
+            Email: newUser.email,
+            Password: password1
           },
           info: 'Please, keep this information safe, especially your password.',
           cta: {
-            intro: 'Log in to enjoy all the benefits Invest Tracker has to offer',
+            intro:
+              'Log in to enjoy all the benefits Invest Tracker has to offer',
             buttonLabel: 'Log in',
             href: `${env.get('CLIENT_URL')}/auth/login`
           },
-          footer: 'You received this email because you just opened an account with us.'
+          footer:
+            'You received this email because you just opened an account with us.'
         })
       })
     ])
@@ -91,14 +92,17 @@ export default async function register(req: Request, res: Response) {
         name: 'Invest Tracker Admin',
         intro: 'A new user has registered on Invest Tracker.',
         details: {
-          'Name': newUser.name,
-          'Email': newUser.email,
-          'Date': newUser.createdAt.toLocaleString()
+          Name: newUser.name,
+          Email: newUser.email,
+          Date: newUser.createdAt.toLocaleString()
         }
       })
     })
   } catch (error) {
-    logger.error(`Error sending welcome email: ${(error as Error).message}`, error)
+    logger.error(
+      `Error sending welcome email: ${(error as Error).message}`,
+      error
+    )
   }
 
   const payload = {

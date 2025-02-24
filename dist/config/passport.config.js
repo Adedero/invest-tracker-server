@@ -16,7 +16,7 @@ const passport_1 = __importDefault(require("passport"));
 const passport_jwt_1 = require("passport-jwt");
 const env_1 = __importDefault(require("../utils/env"));
 const repository_1 = __importDefault(require("../utils/repository"));
-const JWT_SECRET = env_1.default.get('JWT_SECRET', 'jwt-secret');
+const JWT_SECRET = env_1.default.get('JWT_SECRET');
 const jwtOptions = {
     jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: JWT_SECRET

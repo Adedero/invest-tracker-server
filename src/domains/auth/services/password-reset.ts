@@ -160,7 +160,8 @@ export const resetPassword = async (req: Request, res: Response) => {
         },
         outro:
           '<span style="color: red">If you did not initiate a password reset, please contact us immediately by replying to this email.</span>',
-        footer: 'You received this email because you completed a password reset.'
+        footer:
+          'You received this email because you completed a password reset.'
       })
     })
   ])

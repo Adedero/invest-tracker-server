@@ -22,27 +22,36 @@ const mail_1 = require("../../utils/mail");
 function onUpdateTransactionStatus(txn) {
     return __awaiter(this, void 0, void 0, function* () {
         const subject = 'Transaction Status Updated';
-        const message = (name) => txn.status === 'failed' ?
-            `The ${txn.transactionType} request with transaction ID ${txn.id} failed ${txn.failureReason ? `with reason: ${txn.failureReason}` : 'without reason'}.\n${(txn.transactionType === 'withdrawal' && name) ? `$${txn.actualAmountInUSD.toLocaleString()} has been refunded to your wallet.` : ''}` :
-            `The ${txn.transactionType} request with transaction ID ${txn.id} has been approved.\n${(txn.transactionType === 'withdrawal' && name) ? `Your wallet has been credited with $${txn.amountInUSD.toLocaleString()}.` : ''}`;
+        const message = (name) => txn.status === 'failed'
+            ? `The ${txn.transactionType} request with transaction ID ${txn.id} failed ${txn.failureReason ? `with reason: ${txn.failureReason}` : 'without reason'}.\n${txn.transactionType === 'withdrawal' && name ? `$${txn.actualAmountInUSD.toLocaleString()} has been refunded to your wallet.` : ''}`
+            : `The ${txn.transactionType} request with transaction ID ${txn.id} has been approved.\n${txn.transactionType === 'withdrawal' && name ? `Your wallet has been credited with $${txn.amountInUSD.toLocaleString()}.` : ''}`;
         const html = (name) => {
             const CLIENT_URL = env_1.default.get('CLIENT_URL');
             return (0, emails_1.emailTemplate)({
                 subject,
                 name: name !== null && name !== void 0 ? name : 'Invest Tracker Admin',
                 intro: message(name),
-                details: Object.assign({ 'Amount': `$${txn.amountInUSD.toLocaleString()}`, 'Type': (0, helpers_1.toTitleCase)(txn.transactionType), 'Status': (0, helpers_1.toTitleCase)(txn.status) }, ((txn.status === 'failed') && { 'Reason For Failure': txn.failureReason })),
+                details: Object.assign({ Amount: `$${txn.amountInUSD.toLocaleString()}`, Type: (0, helpers_1.toTitleCase)(txn.transactionType), Status: (0, helpers_1.toTitleCase)(txn.status) }, (txn.status === 'failed' && {
+                    'Reason For Failure': txn.failureReason
+                })),
                 cta: {
                     intro: 'Click the button to view the details of the transaction.',
                     buttonLabel: 'View Transaction',
-                    href: name ? `${CLIENT_URL}/user/wallet/transaction/${txn.id}` : `${CLIENT_URL}/admin/transactions/${txn.id}`
+                    href: name
+                        ? `${CLIENT_URL}/user/wallet/transaction/${txn.id}`
+                        : `${CLIENT_URL}/admin/transactions/${txn.id}`
                 },
                 outro: `This message was sent from Invest Tracker because of an update was made to a transaction with ID ${txn.id}`
             });
         };
         try {
             yield Promise.all([
-                (0, handlers_1.createNotification)({ userId: txn.user.id, title: subject, description: message(txn.user.name), user: txn.user }),
+                (0, handlers_1.createNotification)({
+                    userId: txn.user.id,
+                    title: subject,
+                    description: message(txn.user.name),
+                    user: txn.user
+                }),
                 (0, mail_1.sendEmail)({ toEmail: env_1.default.get('EMAIL_USER'), subject, html: html() }),
                 (0, mail_1.sendEmail)({ toEmail: txn.user.email, subject, html: html(txn.user.name) })
             ]);

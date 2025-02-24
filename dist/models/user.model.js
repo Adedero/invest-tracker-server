@@ -229,4 +229,4 @@ export class User {
   })
   notifications!: Notification[]
 }
- */ 
+ */

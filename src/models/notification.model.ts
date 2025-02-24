@@ -5,7 +5,7 @@ import {
   ManyToOne,
   Index,
   BeforeInsert,
-  BeforeUpdate,
+  BeforeUpdate
 } from 'typeorm'
 import { User } from './user.model'
 import { v4 as uuidv4 } from 'uuid'
@@ -52,7 +52,6 @@ export class Notification {
     this.updatedAt = new Date()
   }
 }
-
 
 /* // notification.model.ts
 import {

@@ -7,7 +7,7 @@ import {
   JoinColumn,
   Index,
   BeforeInsert,
-  BeforeUpdate,
+  BeforeUpdate
 } from 'typeorm'
 import { User } from './user.model'
 import { Profit } from './profit.model'
@@ -119,7 +119,6 @@ export class Investment {
     this.updatedAt = new Date()
   }
 }
-
 
 /* // investment.model.ts
 import {
