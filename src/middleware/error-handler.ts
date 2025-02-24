@@ -8,7 +8,7 @@ export default function (
   res: Response,
   next: NextFunction
 ) {
-  const message = IS_PRODUCTION_ENV ? 'Something went wrong' : err.message
+  const message = err.message //IS_PRODUCTION_ENV ? 'Something went wrong' : err.message
   res.status(500).json({ success: false, message })
   return
 }
