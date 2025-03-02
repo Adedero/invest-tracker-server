@@ -9,9 +9,9 @@ const error_handler_1 = __importDefault(require("./middleware/error-handler"));
 const cors_config_1 = __importDefault(require("./config/cors.config"));
 const express_1 = __importDefault(require("express"));
 const routes_1 = __importDefault(require("./routes"));
-//import { job } from './cron/cron-job'
+const cron_job_1 = require("./cron/cron-job");
 const app = (0, express_1.default)();
-//job.start()
+cron_job_1.job.start();
 //Middleware
 app.use(cors_config_1.default);
 app.use(express_1.default.json({ limit: '10mb' }));

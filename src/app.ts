@@ -4,11 +4,11 @@ import errorHandler from './middleware/error-handler'
 import corsConfig from './config/cors.config'
 import express from 'express'
 import routes from './routes'
-//import { job } from './cron/cron-job'
+import { job } from './cron/cron-job'
 
 const app = express()
 
-//job.start()
+job.start()
 
 //Middleware
 app.use(corsConfig)
