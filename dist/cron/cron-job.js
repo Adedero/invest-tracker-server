@@ -16,7 +16,7 @@ exports.job = void 0;
 const cron_1 = require("cron");
 const profit_service_1 = require("../domains/user/services/profit.service");
 const logger_1 = __importDefault(require("../utils/logger"));
-exports.job = new cron_1.CronJob('* * * * *', 
+exports.job = new cron_1.CronJob('0 0 * * *', 
 //'0 0 * * *', // Runs at 12:00 AM (midnight) every day
 function () {
     return __awaiter(this, void 0, void 0, function* () {
@@ -24,5 +24,4 @@ function () {
         logger_1.default.info('Profit Distributed');
     });
 }, null, // onComplete
-true, // start automatically
-'America/Los_Angeles');
+true);
