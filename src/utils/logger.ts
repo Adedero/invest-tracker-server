@@ -1,6 +1,6 @@
 import winston from 'winston'
 import path from 'node:path'
-import DailyRotateFile from 'winston-daily-rotate-file'
+import 'winston-daily-rotate-file'
 import { IS_PRODUCTION_ENV } from '../utils/constants'
 
 const logDirectory = path.resolve('logs')
@@ -14,7 +14,6 @@ const customColors = {
 }
 
 winston.addColors(customColors)
-
 // Create a logger instance
 const logger = winston.createLogger({
   level: 'info',
@@ -24,56 +23,39 @@ const logger = winston.createLogger({
       return `${timestamp} [${level.toUpperCase()}]: ${message}`
     })
   ),
-  transports: []
-})
-
-// Add Console transport
-logger.add(
-  new winston.transports.Console({
-    format: winston.format.combine(
-      winston.format.colorize({ all: true }), // Apply colors to all parts
-      winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }), // Include timestamp
-      winston.format.printf(({ timestamp, level, message }) => {
-        return `${timestamp} [${level.toUpperCase()}]: ${message}`
-      })
-    )
-  })
-)
-
-// Add file logging with rotation in production mode
-if (IS_PRODUCTION_ENV) {
-  logger.add(
-    new DailyRotateFile({
+  transports: [
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        winston.format.printf(({ timestamp, level, message }) => {
+          return `${timestamp} [${level.toUpperCase()}]: ${message}`
+        }),
+        winston.format.colorize({ all: true }),
+      )
+    }),
+    IS_PRODUCTION_ENV ?
+    new winston.transports.DailyRotateFile({
       filename: path.join(logDirectory, 'site-%DATE%.log'),
       datePattern: 'YYYY-MM-DD',
       zippedArchive: true,
       maxSize: '20m',
       maxFiles: '14d',
       level: 'info'
-    })
-  )
+    }) :
+    false
+  ].filter(Boolean) as winston.transport[]
+})
 
-  logger.add(
-    new DailyRotateFile({
-      filename: path.join(logDirectory, 'error-%DATE%.log'),
-      datePattern: 'YYYY-MM-DD',
-      zippedArchive: true,
-      maxSize: '20m',
-      maxFiles: '14d',
-      level: 'error'
-    })
-  )
-}
 
 // Custom error handler
 const originalError = logger.error
-logger.error = (msg) => {
+logger.error = (msg, error?) => {
   if (msg instanceof Error) {
     return originalError.call(logger, {
       error: `${msg.message}\nStack: ${msg.stack}`
     })
   } else {
-    return originalError.call(logger, msg)
+    return originalError.call(logger, { error: `${msg}: ${error.message || error}` })
   }
 }
 
