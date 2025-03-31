@@ -4,6 +4,7 @@ import { sendResponse } from '../../../utils/helpers'
 import * as argon from 'argon2'
 import * as jwt from 'jsonwebtoken'
 import env from '../../../utils/env'
+import { LOGIN_SESSION_DURATION } from '../../../utils/constants'
 
 export default async function login(req: Request, res: Response) {
   const { email, password } = req.body
@@ -41,7 +42,7 @@ export default async function login(req: Request, res: Response) {
   }
 
   const jwtPayload = { id: user.id, role: user.role }
-  const token = jwt.sign(jwtPayload, env.get('JWT_SECRET'), { expiresIn: '1h' })
+  const token = jwt.sign(jwtPayload, env.get('JWT_SECRET'), { expiresIn: LOGIN_SESSION_DURATION })
 
   const responsePayload = {
     success: true,

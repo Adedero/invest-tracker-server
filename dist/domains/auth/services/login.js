@@ -51,6 +51,7 @@ const helpers_1 = require("../../../utils/helpers");
 const argon = __importStar(require("argon2"));
 const jwt = __importStar(require("jsonwebtoken"));
 const env_1 = __importDefault(require("../../../utils/env"));
+const constants_1 = require("../../../utils/constants");
 function login(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { email, password } = req.body;
@@ -81,7 +82,7 @@ function login(req, res) {
             return;
         }
         const jwtPayload = { id: user.id, role: user.role };
-        const token = jwt.sign(jwtPayload, env_1.default.get('JWT_SECRET'), { expiresIn: '1h' });
+        const token = jwt.sign(jwtPayload, env_1.default.get('JWT_SECRET'), { expiresIn: constants_1.LOGIN_SESSION_DURATION });
         const responsePayload = {
             success: true,
             message: 'Log in successful',
