@@ -13,6 +13,7 @@ const deposit_1 = __importDefault(require("./handlers/deposit"));
 const withdrawal_1 = __importDefault(require("./handlers/withdrawal"));
 const distribute_profit_1 = __importDefault(require("./handlers/distribute-profit"));
 const close_investment_1 = __importDefault(require("./handlers/close-investment"));
+const pause_investment_1 = __importDefault(require("./handlers/pause-investment"));
 class AlertEmitter extends node_events_1.EventEmitter {
 }
 exports.default = AlertEmitter;
@@ -25,6 +26,7 @@ exports.alertEmitter.on('update-transaction-status', update_transaction_status_1
 exports.alertEmitter.on('terminate-investment', terminate_investment_1.default);
 exports.alertEmitter.on('create-investment', create_investment_1.default);
 exports.alertEmitter.on('close-investment', close_investment_1.default);
+exports.alertEmitter.on('toggle-investment-pause', pause_investment_1.default);
 exports.alertEmitter.on('deposit', deposit_1.default);
 exports.alertEmitter.on('withdrawal', withdrawal_1.default);
 exports.alertEmitter.on('distribute-profit', distribute_profit_1.default);

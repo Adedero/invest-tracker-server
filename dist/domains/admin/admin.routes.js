@@ -8,6 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 // admin.routes.ts
 const express_1 = require("express");
@@ -17,6 +20,9 @@ const argon2_1 = require("argon2");
 const transaction_service_1 = require("./services/transaction.service");
 const investment_service_1 = require("./services/investment.service");
 const dashboard_service_1 = require("./services/dashboard.service");
+const repository_1 = __importDefault(require("../../utils/repository"));
+const alert_event_1 = require("../../events/alert.event");
+const logger_1 = __importDefault(require("../../utils/logger"));
 const router = (0, express_1.Router)();
 router.get('/dashboard', dashboard_service_1.getDashboardData);
 //Utitlites
@@ -45,6 +51,29 @@ router.put('/accounts/:id', (0, handlers_1.putHandler)('Account'));
 //Investments
 router.get('/investments/:id?', (0, handlers_1.getHandler)('Investment'));
 router.patch('/investments/:id', investment_service_1.terminateInvestment);
+router.put('/investments/:id', (0, handlers_1.putHandler)('Investment', {
+    onBeforeUpdate: (ctx, data) => __awaiter(void 0, void 0, void 0, function* () {
+        const { id } = ctx.req.params;
+        const { isPausing, status } = data;
+        if (isPausing === undefined || isPausing === null || !status) {
+            delete data.isPausing;
+            return data;
+        }
+        try {
+            const investment = yield (yield (0, repository_1.default)('Investment')).model.findOne({ where: { id }, relations: { user: true } });
+            if (!investment) {
+                delete data.isPausing;
+                return data;
+            }
+            alert_event_1.alertEmitter.emit('toggle-investment-pause', Object.assign(Object.assign({}, investment), { pausedReason: data.pausedReason }));
+        }
+        catch (error) {
+            logger_1.default.error(`Error toggling investment pause: ${error.message}`, error);
+        }
+        delete data.isPausing;
+        return data;
+    })
+}));
 //Transactions
 router.get('/transactions/:id?', (0, handlers_1.getHandler)('Transaction'));
 router.put('/transactions/:id', (0, handlers_1.putHandler)('Transaction'));

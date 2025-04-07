@@ -7,6 +7,7 @@ import onDeposit from './handlers/deposit'
 import onWithdrawal from './handlers/withdrawal'
 import onDistributeProfit from './handlers/distribute-profit'
 import onCloseInvestment from './handlers/close-investment'
+import onToggleInvestmentPause from './handlers/pause-investment'
 
 export default class AlertEmitter extends EventEmitter {}
 
@@ -23,6 +24,8 @@ alertEmitter.on('terminate-investment', onTerminateInvestment)
 alertEmitter.on('create-investment', onCreateInvestment)
 
 alertEmitter.on('close-investment', onCloseInvestment )
+
+alertEmitter.on('toggle-investment-pause', onToggleInvestmentPause)
 
 alertEmitter.on('deposit', onDeposit)
 

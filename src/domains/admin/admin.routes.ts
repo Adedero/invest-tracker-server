@@ -14,6 +14,9 @@ import { hash } from 'argon2'
 import { updateTransaction } from './services/transaction.service'
 import { terminateInvestment } from './services/investment.service'
 import { getDashboardData } from './services/dashboard.service'
+import getRepository from '../../utils/repository'
+import { alertEmitter } from '../../events/alert.event'
+import logger from '../../utils/logger'
 
 const router = Router()
 
@@ -52,7 +55,32 @@ router.put('/accounts/:id', putHandler('Account'))
 //Investments
 router.get('/investments/:id?', getHandler('Investment'))
 router.patch('/investments/:id', terminateInvestment)
-router.put('/investments/:id', putHandler('Investment'))
+router.put(
+  '/investments/:id',
+  putHandler('Investment', {
+    onBeforeUpdate: async (ctx, data) => {
+      const { id } = ctx.req.params
+      const { isPausing, status } = data as Record<string, unknown>
+      if (isPausing === undefined || isPausing === null || !status) {
+        delete (data as Record<string, unknown>).isPausing
+        return data
+      }
+   
+      try {
+        const investment = await (await getRepository('Investment')).model.findOne({ where: { id }, relations: { user: true } })
+        if (!investment) {
+          delete (data as Record<string, unknown>).isPausing
+          return data
+        }
+        alertEmitter.emit('toggle-investment-pause', { ...investment, pausedReason: (data as Record<string, unknown>).pausedReason })
+      } catch (error) {
+        logger.error(`Error toggling investment pause: ${(error as Error).message}`, error)
+      }
+      delete (data as Record<string, unknown>).isPausing
+      return data
+    }
+  })
+)
 
 //Transactions
 router.get('/transactions/:id?', getHandler('Transaction'))

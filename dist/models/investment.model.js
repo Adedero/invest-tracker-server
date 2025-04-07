@@ -19,6 +19,7 @@ var InvestmentStatus;
     InvestmentStatus["OPEN"] = "open";
     InvestmentStatus["CLOSED"] = "closed";
     InvestmentStatus["TERMINATED"] = "terminated";
+    InvestmentStatus["PAUSED"] = "paused";
 })(InvestmentStatus || (exports.InvestmentStatus = InvestmentStatus = {}));
 let Investment = class Investment {
     constructor() {
@@ -59,6 +60,14 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 20, default: InvestmentStatus.OPEN }),
     __metadata("design:type", String)
 ], Investment.prototype, "status", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Investment.prototype, "pausedReason", void 0);
+__decorate([
+    (0, typeorm_1.Column)('timestamp', { nullable: true }),
+    __metadata("design:type", Date)
+], Investment.prototype, "pausedAt", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
