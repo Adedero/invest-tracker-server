@@ -16,7 +16,8 @@ import { v4 as uuidv4 } from 'uuid'
 export enum InvestmentStatus {
   OPEN = 'open',
   CLOSED = 'closed',
-  TERMINATED = 'terminated'
+  TERMINATED = 'terminated',
+  PAUSED = 'paused'
 }
 
 @Entity()
@@ -39,6 +40,12 @@ export class Investment {
   @Index()
   @Column({ type: 'varchar', length: 20, default: InvestmentStatus.OPEN })
   status!: InvestmentStatus
+
+  @Column({ nullable: true})
+  pausedReason!: string
+
+  @Column('timestamp', { nullable: true })
+  pausedAt!: Date
 
   @Column()
   investmentName!: string

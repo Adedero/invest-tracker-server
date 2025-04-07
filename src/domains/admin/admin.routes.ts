@@ -52,6 +52,7 @@ router.put('/accounts/:id', putHandler('Account'))
 //Investments
 router.get('/investments/:id?', getHandler('Investment'))
 router.patch('/investments/:id', terminateInvestment)
+router.put('/investments/:id', putHandler('Investment'))
 
 //Transactions
 router.get('/transactions/:id?', getHandler('Transaction'))
